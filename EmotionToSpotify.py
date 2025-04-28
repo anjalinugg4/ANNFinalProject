@@ -1,7 +1,7 @@
 import pandas as pd
 import random
 
-spotify_df = pd.read_csv("/Users/anjalinuggehalli/Desktop/ANNFinalProject/spotify/spotify_songs.csv")
+spotify_df = pd.read_csv("/Users/anjalinuggehalli/Applications/ANNFinalProject/spotify/spotify_songs.csv")
 
 weather_data_mapping = {
     "lightning": {

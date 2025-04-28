@@ -8,7 +8,7 @@ import torch.nn.functional as F
 from torchvision import models
 import matplotlib.pyplot as plt
 
-data_dir = '/Users/anjalinuggehalli/Desktop/ANNFinalProject/weather'
+data_dir = '/Users/anjalinuggehalli/Applications/ANNFinalProject/weather'
 batch_size = 32
 num_epochs = 1
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -91,7 +91,7 @@ def predict_weather_and_emotion(image_path):
     return weather_label, emotion
 
 # Example usage
-test_img = 'weather/lightning/1837.jpg'
+test_img = '/Users/anjalinuggehalli/Applications/ANNFinalProject/weather/lightning/1835.jpg'
 weather, emotion = predict_weather_and_emotion(test_img)
 print(f"Predicted Weather: {weather} → Emotion: {emotion}")
 

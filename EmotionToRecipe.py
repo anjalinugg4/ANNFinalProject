@@ -4,7 +4,7 @@ from WeatherCNN import emotion
 
 
 # Example: Load your dataset
-recipes_df = pd.read_csv("/Users/anjalinuggehalli/Desktop/ANNFinalProject/recipes/RecipeNLG_dataset.csv") 
+recipes_df = pd.read_csv("/Users/anjalinuggehalli/Applications/ANNFinalProject/recipes/RecipeNLG_dataset.csv") 
 
 
 emotion_to_recipe_keywords = {

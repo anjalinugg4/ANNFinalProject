@@ -1,7 +1,7 @@
 import pandas as pd
 import random
 
-spotify_df = pd.read_csv("/Users/anjalinuggehalli/Applications/ANNFinalProject/spotify/spotify_songs.csv")
+spotify_df = pd.read_csv("/Users/anjalinuggehalli/Desktop/ANNFinalProject/spotify/spotify_songs.csv")
 
 weather_data_mapping = {
     "lightning": {
@@ -128,10 +128,6 @@ weather_data_mapping = {
 }
 
 
-
-
-
-
 def get_song_for_emotion(emotion, weather_data_mapping, spotify_df):
     # Find the weather condition that matches the emotion
     weather_entry = next((v for k, v in weather_data_mapping.items() if v["emotion"] == emotion), None)
@@ -167,7 +163,3 @@ def get_song_for_emotion(emotion, weather_data_mapping, spotify_df):
     }
 
 
-emotion = "cozy"
-song = get_song_for_emotion(emotion, weather_data_mapping, spotify_df)
-print("🎵 Suggested Song for Emotion:", emotion)
-print(song)

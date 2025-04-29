@@ -1,10 +1,11 @@
 import pandas as pd
 import re
-from WeatherCNN import emotion
+# from WeatherCNN import emotion
 
 
-# Example: Load your dataset
-recipes_df = pd.read_csv("/Users/anjalinuggehalli/Applications/ANNFinalProject/recipes/RecipeNLG_dataset.csv") 
+def load_recipes():
+    return pd.read_csv("/Users/anjalinuggehalli/Desktop/ANNFinalProject/recipes/small_RecipeNLG.csv")
+
 
 
 emotion_to_recipe_keywords = {
@@ -79,13 +80,18 @@ def find_matching_recipes(emotion, recipes_df, top_n=1):
     return matches.sample(n=top_n, random_state=None)
 
 
+def get_recipe_for_emotion(emotion, recipes_df):
+    matching_recipes = find_matching_recipes(emotion, recipes_df, top_n=1)
+    if len(matching_recipes) > 0:
+        recipe = matching_recipes.iloc[0]
+        return {
+            "title": recipe["title"],
+            "ingredients": recipe["ingredients"]
+        }
+    else:
+        return {
+            "title": "No recipe found",
+            "ingredients": "No ingredients found"
+        }
 
-
-
-# Let's say your predicted emotion is "cozy"
-# emotion = "cozy"
-matching_recipes = find_matching_recipes(emotion, recipes_df)
-
-# View results
-print(matching_recipes[["title", "ingredients"]])
 

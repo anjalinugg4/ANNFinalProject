@@ -6,18 +6,7 @@ This project uses a Convolutional Neural Network (CNN) to classify weather condi
 
 ## Project Structure
 
-ANNFinalProject/
-├── weather/                      # Weather image dataset (not pushed)
-├── spotify/
-│   └── spotify_songs.csv        # Songs dataset (not pushed)
-├── recipes/
-│   └── RecipeNLG_dataset.csv    # Recipe dataset (not pushed)
-├── WeatherCNN.py                # CNN training code for weather prediction
-├── EmotionToRecipe.py           # Recommends recipes based on emotion
-├── EmotionToSpotify.py          # Recommends songs based on emotion
-├── Pipeline.py                  # Full weather → emotion → recommendation pipeline
-├── .gitignore
-└── README.md
+<pre lang="markdown"> ```bash ANNFinalProject/ ├── weather/ # Weather image dataset (not pushed) ├── spotify/ │ └── spotify_songs.csv # Songs dataset (not pushed) ├── recipes/ │ └── RecipeNLG_dataset.csv # Recipe dataset (not pushed) ├── WeatherCNN.py # CNN training code for weather prediction ├── EmotionToRecipe.py # Recommends recipes based on emotion ├── EmotionToSpotify.py # Recommends songs based on emotion ├── Pipeline.py # Full weather → emotion → recommendation pipeline ├── .gitignore └── README.md ``` </pre>
 
 
 vbnet

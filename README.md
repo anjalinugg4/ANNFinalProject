@@ -20,11 +20,6 @@ ANNFinalProject/
 └── README.md
 
 
-
-vbnet
-Copy
-Edit
-
 ---
 
 

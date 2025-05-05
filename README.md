@@ -37,16 +37,16 @@ ANNFinalProject/
 
 ## Figures and How They Were Created
 
-### `figures/example_output_1.png`  
+### `figures/Example1.png`  
 > Full output of the model pipeline for a "lightning" image input.  
 - **Weather classification:** `predict_weather_and_emotion()` in [`WeatherCNN.py`](./WeatherCNN.py)  
 - **Recommendations:** `full_pipeline()` in [`Pipeline.py`](./Pipeline.py)  
 
-### `figures/example_output_2.png`  
+### `figures/Example2.png`  
 > Another result example with different input weather image.  
 - **Same pipeline** and function references as above.
 
-### `figures/pipeline_diagram.png`  
+### `figures/WorkPipeline.png`  
 > High-level overview of the system architecture: image → weather → emotion → music/recipe  
 - **Created manually** to document the complete pipeline  
 

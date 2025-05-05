@@ -1,4 +1,4 @@
-# 🌤️ Weather2Mood: CNN-Based Music & Recipe Recommender
+# Climate Cuisine: CNN-Based Music & Recipe Recommender
 
 This project uses a Convolutional Neural Network (CNN) to classify weather conditions from images, maps them to corresponding emotions, and recommends a fitting song and recipe. It combines computer vision, emotion modeling, and content-based recommendation into a seamless pipeline.
 
@@ -10,11 +10,10 @@ ANNFinalProject/
 ├── weather/ # Weather image dataset (not pushed)
 ├── spotify/spotify_songs.csv # Songs dataset (not pushed)
 ├── recipes/RecipeNLG_dataset.csv # Recipe dataset (not pushed)
-├── model.py # CNN training code
-├── predict.py # Weather prediction and emotion mapping
-├── recommender.py # Recommends songs and recipes based on emotion
-├── visualize.py # Generates visual output (final result figure)
-├── results/ # Sample outputs (figures, .txt)
+├── WeatherCNN.py # CNN training code for weather prediction
+├── EmotionToRecipe.py # Recommends recipes based on emotion
+├── EmotionToSpotify.py # Recommends songs based on emotion
+├── Pipeline.py # Full weather to emotion to recommendation pipline
 ├── .gitignore
 └── README.md
 
@@ -51,7 +50,6 @@ Edit
 ### 🔁 `figures/pipeline_diagram.png`  
 > High-level overview of the system architecture: image → weather → emotion → music/recipe  
 - **Created manually** to document the complete pipeline  
-- Supported by function flow from `model.py`, `predict.py`, `recommender.py`, and `visualize.py`.
 
 ---
 

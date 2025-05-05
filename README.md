@@ -4,7 +4,7 @@ This project uses a Convolutional Neural Network (CNN) to classify weather condi
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ANNFinalProject/
 ├── weather/ # Weather image dataset (not pushed)
@@ -26,7 +26,7 @@ Edit
 
 ---
 
-## 🧠 Methodology
+## Methodology
 
 1. **Weather Classification:** A custom CNN model is trained using labeled weather images to classify input images into weather types like "lightning," "fog," or "rain."
 2. **Emotion Mapping:** Each weather label is mapped to a unique emotion (e.g., "fogsmog" → "edgy", "lightning" → "intense").
@@ -36,18 +36,18 @@ Edit
 
 ---
 
-## 📊 Figures and How They Were Created
+## Figures and How They Were Created
 
-### 🖼️ `figures/example_output_1.png`  
+### `figures/example_output_1.png`  
 > Full output of the model pipeline for a "lightning" image input.  
 - **Weather classification:** `predict_weather_and_emotion()` in [`WeatherCNN.py`](./WeatherCNN.py)  
 - **Recommendations:** `full_pipeline()` in [`Pipeline.py`](./Pipeline.py)  
 
-### 🖼️ `figures/example_output_2.png`  
+### `figures/example_output_2.png`  
 > Another result example with different input weather image.  
 - **Same pipeline** and function references as above.
 
-### 🔁 `figures/pipeline_diagram.png`  
+### `figures/pipeline_diagram.png`  
 > High-level overview of the system architecture: image → weather → emotion → music/recipe  
 - **Created manually** to document the complete pipeline  
 

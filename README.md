@@ -41,8 +41,8 @@ Edit
 
 ### 🖼️ `figures/example_output_1.png`  
 > Full output of the model pipeline for a "lightning" image input.  
-- **Weather classification:** `predict_weather_and_emotion()` in [`predict.py`](./predict.py)  
-- **Recommendations:** `get_recommendations()` in [`recommender.py`](./recommender.py)  
+- **Weather classification:** `predict_weather_and_emotion()` in [`WeatherCNN.py`](./WeatherCNN.py)  
+- **Recommendations:** `full_pipeline()` in [`Pipeline.py`](./Pipeline.py)  
 
 ### 🖼️ `figures/example_output_2.png`  
 > Another result example with different input weather image.  

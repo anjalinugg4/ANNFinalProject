@@ -37,6 +37,9 @@ ANNFinalProject/
 
 ## Figures and How They Were Created
 
+### figures/Figure_1.png
+> Confidence score for our Weather CNN model after 10 epochs
+> - ** `plot_confidences()`in [`WeatherCNN.py`](./WeatherCNN.py)  
 ### `figures/Example1.png`  
 > Full output of the model pipeline for a "lightning" image input.  
 - **Weather classification:** `predict_weather_and_emotion()` in [`WeatherCNN.py`](./WeatherCNN.py)  

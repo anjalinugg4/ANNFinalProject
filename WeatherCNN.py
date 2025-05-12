@@ -7,10 +7,13 @@ from torch.utils.data import DataLoader
 import torch.nn.functional as F
 from torchvision import models
 import matplotlib.pyplot as plt
+from PIL import Image
+
+
 
 data_dir = '/Users/anjalinuggehalli/Desktop/ANNFinalProject/weather'
 batch_size = 32
-num_epochs = 10
+num_epochs = 5
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 # 2. Mapping from weather label to emotion
@@ -37,7 +40,6 @@ transform = transforms.Compose([
 # 4. Dataset and Dataloader
 dataset = ImageFolder(data_dir, transform=transform)
 dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
-
 
 class WeatherCNN(nn.Module):
     def __init__(self, num_classes):
@@ -88,16 +90,48 @@ for epoch in range(num_epochs):
         total_loss += loss.item()
     print(f"Epoch {epoch+1}/{num_epochs}, Loss: {total_loss:.4f}")
 
-# 8. Predict & Map to Emotion
+
 def predict_weather_and_emotion(image_path):
     from PIL import Image
     model.eval()
     image = Image.open(image_path).convert('RGB')
     image = transform(image).unsqueeze(0).to(device)
-    output = model(image)
-    pred_idx = output.argmax(dim=1).item()
-    weather_label = dataset.classes[pred_idx]
+    
+    with torch.no_grad():
+        output = model(image)
+        probabilities = F.softmax(output, dim=1)
+        confidence, pred_idx = torch.max(probabilities, dim=1)
+        confidence = confidence.item()
+    
+    weather_label = dataset.classes[pred_idx.item()]
     emotion = weather_to_emotion.get(weather_label, "unknown")
-    return weather_label, emotion
+    
+    return weather_label, emotion, confidence
+
+
+
+def plot_confidences(image_path, model, dataset, transform, threshold=0.9):
+    model.eval()
+    image = Image.open(image_path).convert('RGB')
+    image = transform(image).unsqueeze(0).to(device)
+
+    with torch.no_grad():
+        output = model(image)
+        probs = F.softmax(output, dim=1).squeeze().cpu().numpy()
+
+    classes = dataset.classes
+    plt.figure(figsize=(10, 5))
+    bars = plt.bar(classes, probs, color=['green' if p >= threshold else 'skyblue' for p in probs])
+    plt.axhline(y=threshold, color='red', linestyle='--', label='90% Threshold')
+    plt.ylabel('Confidence (Probability)')
+    plt.xlabel('Weather Class')
+    plt.title('Model Prediction Confidence per Class')
+    plt.xticks(rotation=45)
+    plt.ylim(0, 1.05)
+    plt.legend()
+    plt.tight_layout()
+    plt.show()
+
+
 
 

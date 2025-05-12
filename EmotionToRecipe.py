@@ -2,9 +2,14 @@ import pandas as pd
 import re
 # from WeatherCNN import emotion
 
-
 def load_recipes():
-    return pd.read_csv("/Users/anjalinuggehalli/Desktop/ANNFinalProject/recipes/small_RecipeNLG.csv")
+    df = pd.read_csv(
+        "/Users/anjalinuggehalli/Desktop/ANNFinalProject/recipes/small_RecipeNLG.csv",
+        engine="python",
+        quotechar='"',
+        on_bad_lines='skip'
+    )
+    return df
 
 
 

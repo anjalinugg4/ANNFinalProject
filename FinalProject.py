@@ -5,7 +5,6 @@ from torchvision import datasets, transforms, models
 import os
 
 
-
 #hello 
 
 weather_data_mapping = {
@@ -142,8 +141,9 @@ from torch.utils.data import DataLoader
 import torch.nn.functional as F
 from torchvision import models
 import matplotlib.pyplot as plt
+from PIL import Image
 
-data_dir = '/Users/anjalinuggehalli/Desktop/ANN Final Project/weather'
+data_dir = '/Users/anjalinuggehalli/Desktop/ANNFinalProject/weather'
 batch_size = 32
 num_epochs = 10
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -177,17 +177,27 @@ dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
 class WeatherCNN(nn.Module):
     def __init__(self, num_classes):
         super(WeatherCNN, self).__init__()
-        self.conv1 = nn.Conv2d(3, 16, 3, padding=1)
+        self.conv1 = nn.Conv2d(3, 32, 3, padding=1)
+        self.bn1 = nn.BatchNorm2d(32)
+        
+        self.conv2 = nn.Conv2d(32, 64, 3, padding=1)
+        self.bn2 = nn.BatchNorm2d(64)
+        
+        self.conv3 = nn.Conv2d(64, 128, 3, padding=1)
+        self.bn3 = nn.BatchNorm2d(128)
+        
         self.pool = nn.MaxPool2d(2, 2)
-        self.conv2 = nn.Conv2d(16, 32, 3, padding=1)
-        self.fc1 = nn.Linear(32 * 32 * 32, 128)
-        self.fc2 = nn.Linear(128, num_classes)
+        self.dropout = nn.Dropout(0.5)
+        
+        self.fc1 = nn.Linear(128 * 16 * 16, 256)  # Input size changes due to 3 poolings
+        self.fc2 = nn.Linear(256, num_classes)
 
     def forward(self, x):
-        x = self.pool(F.relu(self.conv1(x)))  # [B, 16, 64, 64]
-        x = self.pool(F.relu(self.conv2(x)))  # [B, 32, 32, 32]
-        x = x.view(-1, 32 * 32 * 32)
-        x = F.relu(self.fc1(x))
+        x = self.pool(F.relu(self.bn1(self.conv1(x))))  # -> [B, 32, 64, 64]
+        x = self.pool(F.relu(self.bn2(self.conv2(x))))  # -> [B, 64, 32, 32]
+        x = self.pool(F.relu(self.bn3(self.conv3(x))))  # -> [B, 128, 16, 16]
+        x = x.view(-1, 128 * 16 * 16)
+        x = self.dropout(F.relu(self.fc1(x)))
         return self.fc2(x)
 
 # 6. Training Setup
@@ -213,20 +223,58 @@ for epoch in range(num_epochs):
         total_loss += loss.item()
     print(f"Epoch {epoch+1}/{num_epochs}, Loss: {total_loss:.4f}")
 
-# 8. Predict & Map to Emotion
 def predict_weather_and_emotion(image_path):
     from PIL import Image
     model.eval()
     image = Image.open(image_path).convert('RGB')
     image = transform(image).unsqueeze(0).to(device)
-    output = model(image)
-    pred_idx = output.argmax(dim=1).item()
-    weather_label = dataset.classes[pred_idx]
+    
+    with torch.no_grad():
+        output = model(image)
+        probabilities = F.softmax(output, dim=1)
+        confidence, pred_idx = torch.max(probabilities, dim=1)
+        confidence = confidence.item()
+    
+    weather_label = dataset.classes[pred_idx.item()]
     emotion = weather_to_emotion.get(weather_label, "unknown")
-    return weather_label, emotion
+    
+    return weather_label, emotion, confidence
 
-# Example usage
-test_img = 'weather/1837.jpg'
-weather, emotion = predict_weather_and_emotion(test_img)
-print(f"Predicted Weather: {weather} → Emotion: {emotion}")
+def plot_confidences(image_path, model, dataset, transform, threshold=0.9):
+    model.eval()
+    image = Image.open(image_path).convert('RGB')
+    image = transform(image).unsqueeze(0).to(device)
+
+    with torch.no_grad():
+        output = model(image)
+        probs = F.softmax(output, dim=1).squeeze().cpu().numpy()
+
+    classes = dataset.classes
+    plt.figure(figsize=(10, 5))
+    bars = plt.bar(classes, probs, color=['green' if p >= threshold else 'skyblue' for p in probs])
+    plt.axhline(y=threshold, color='red', linestyle='--', label='90% Threshold')
+    plt.ylabel('Confidence (Probability)')
+    plt.xlabel('Weather Class')
+    plt.title('Model Prediction Confidence per Class')
+    plt.xticks(rotation=45)
+    plt.ylim(0, 1.05)
+    plt.legend()
+    plt.tight_layout()
+    plt.show()
+
+
+
+
+if __name__ == "__main__":
+    test_image_path = "/Users/anjalinuggehalli/Desktop/ANNFinalProject/weather/rainbow/0594.jpg"
+    
+    label, emotion, confidence = predict_weather_and_emotion(test_image_path)
+    print(f"🌦️ Predicted Weather: {label}")
+    print(f"💬 Mapped Emotion: {emotion}")
+    print(f"📊 Confidence: {confidence:.2%}")
+    
+    # Plot confidence across all classes
+    plot_confidences(test_image_path, model, dataset, transform, threshold=0.9)
+
+
 

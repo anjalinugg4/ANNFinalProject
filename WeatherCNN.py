@@ -13,7 +13,7 @@ from PIL import Image
 
 data_dir = '/Users/anjalinuggehalli/Desktop/ANNFinalProject/weather'
 batch_size = 32
-num_epochs = 5
+num_epochs = 10
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 # 2. Mapping from weather label to emotion
